@@ -1,0 +1,34 @@
+version: '3'
+
+services: 
+
+  microservice1:
+    image: deusilva/microservice1ad
+    env_file: ./a/.env
+    depends_on: 
+      - rabbitmq
+    restart: on-failure
+
+  microservice2:
+    image: deusilva/microservice2ad
+    env_file: ./b/.env
+    depends_on: 
+      - rabbitmq
+    restart: on-failure
+
+  microservice3:
+    image: deusilva/microservice3ad
+    depends_on: 
+      - rabbitmq
+    restart: on-failure
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
